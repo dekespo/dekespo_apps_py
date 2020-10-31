@@ -1,8 +1,9 @@
+from dekespo_ai_sdk.core.raw_data_handler import RawDataHandler
 from draw.tkinter_singleton import TkinterSingleton
 from draw.colour import Colour
 
-from core.shapes import Shape2D
-from core.graph import Graph
+from dekespo_ai_sdk.core.shapes import Shape2D
+from dekespo_ai_sdk.core.graph import Graph
 
 from .utils import Status, Utils, GuiUtils, GraphData, Options
 
@@ -39,7 +40,8 @@ class GuiPathProcessor:
         graph_data = GraphData(tile_size, grid_size, None)
         TkinterSingleton.clear_rectangle()
         raw_grid_data = Utils.create_rectangle_canvas(graph_data)
-        graph_data.graph = Graph(raw_grid_data, Shape2D.Type.RECTANGLE)
+        raw_data_handler = RawDataHandler(raw_grid_data)
+        graph_data.graph = Graph(raw_data_handler, Shape2D.Type.RECTANGLE)
         return graph_data
 
     def _run_dfs(self):

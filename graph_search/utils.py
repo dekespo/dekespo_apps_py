@@ -7,11 +7,11 @@ from draw.tkinter_singleton import TkinterSingleton
 from draw.colour import Colour
 from draw.widget import PackData, ButtonData, WidgetData, TextData, LabelData, ScaleData
 
-from core.dimensions import Dim2D
-from core.graph import Graph
-from core.neighbour import Neighbour
+from dekespo_ai_sdk.core.dimensions import Dim2D
+from dekespo_ai_sdk.core.graph import Graph
+from dekespo_ai_sdk.core.neighbour import Neighbour
 
-from algorithms.graph_search.api import GraphSearch
+from dekespo_ai_sdk.algorithms.graph_search.api import GraphSearch
 
 
 class Status(Enum):
@@ -136,10 +136,10 @@ class Button:
 
 class Utils:
     @staticmethod
-    def create_rectangle_canvas(graph_data: GraphData):
-        raw_data = []
+    def create_rectangle_canvas(graph_data: GraphData) -> List[List]:
+        raw_data: List = []
         for y in range(graph_data.grid_size.y):
-            row_raw_data = []
+            row_raw_data: List = []
             for x in range(graph_data.grid_size.x):
                 TkinterSingleton.create_rectangle_at(
                     Dim2D(x, y), graph_data.tile_size, Colour.BLACK
