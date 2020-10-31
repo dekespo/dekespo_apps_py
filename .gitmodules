@@ -1,0 +1,3 @@
+[submodule "dekespo_ai_sdk_py"]
+	path = dekespo_ai_sdk_py
+	url = https://github.com/dekespo/dekespo_ai_sdk_py
