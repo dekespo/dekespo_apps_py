@@ -9,7 +9,7 @@ from draw.widget import PackData, ButtonData, WidgetData, TextData, LabelData, S
 
 from dekespo_ai_sdk.core.dimensions import Dim2D
 from dekespo_ai_sdk.core.graph import Graph
-from dekespo_ai_sdk.core.neighbour import Neighbour
+from dekespo_ai_sdk.core.neighbour import NeighbourData, NeighbourType
 
 from dekespo_ai_sdk.algorithms.graph_search.api import GraphSearch
 
@@ -162,7 +162,7 @@ class Utils:
     @staticmethod
     def initialize_depth_first_search(graph_data: GraphData):
         start_point = Utils.get_random_edge_point(graph_data.grid_size)
-        neighbour_data = Neighbour.Data(Neighbour.Data.Type.CROSS, random_output=True)
+        neighbour_data = NeighbourData(NeighbourType.CROSS, random_output=True)
         depth_first_search = GraphSearch(
             graph_data.graph, start_point
         ).depth_first_search(neighbour_data, runs_with_thread=True)

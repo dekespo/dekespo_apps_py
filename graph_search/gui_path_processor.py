@@ -1,8 +1,9 @@
+from dekespo_ai_sdk.core.dimensions import Dim2D
 from dekespo_ai_sdk.core.raw_data_handler import RawDataHandler
 from draw.tkinter_singleton import TkinterSingleton
 from draw.colour import Colour
 
-from dekespo_ai_sdk.core.shapes import Shape2D
+from dekespo_ai_sdk.core.shapes import Shape2DType
 from dekespo_ai_sdk.core.graph import Graph
 
 from .utils import Status, Utils, GuiUtils, GraphData, Options
@@ -31,9 +32,9 @@ class GuiPathProcessor:
         self._run_dfs()
 
     @staticmethod
-    def _set_gui(current_options):
-        tile_size = current_options[Options.TILE_SIZE]
-        grid_size = current_options[Options.GRID_SIZE]
+    def _set_gui(current_options) -> GraphData:
+        tile_size: Dim2D = current_options[Options.TILE_SIZE]
+        grid_size: Dim2D = current_options[Options.GRID_SIZE]
         TkinterSingleton.resize_canvas(tile_size.vectoral_multiply(grid_size))
         TkinterSingleton.canvas.configure(background=Colour.GREEN.value)
         TkinterSingleton.canvas.pack(fill="both", expand=True)
@@ -41,7 +42,7 @@ class GuiPathProcessor:
         TkinterSingleton.clear_rectangle()
         raw_grid_data = Utils.create_rectangle_canvas(graph_data)
         raw_data_handler = RawDataHandler(raw_grid_data)
-        graph_data.graph = Graph(raw_data_handler, Shape2D.Type.RECTANGLE)
+        graph_data.graph = Graph(raw_data_handler, Shape2DType.RECTANGLE)
         return graph_data
 
     def _run_dfs(self):
@@ -118,7 +119,7 @@ class GuiPathProcessor:
         return self._current_path_index == len(self._graph_search_closed_set)
 
     def _on_last_step(self):
-        previous_point = self._graph_search_closed_set[self._current_path_index - 1]
+        previous_point = self._graph_search_closed_set[self._current_path_index - 1].position
         self._create_rectangle_at(previous_point, Colour.RED)
         self._status_dictionary[Status.ON_PAUSE] = True
         self._update_path()
@@ -135,24 +136,24 @@ class GuiPathProcessor:
 
     def _next_white_colouring(self):
         if self._current_path_index > self._start_path_index:
-            previous_point = self._graph_search_closed_set[self._current_path_index - 1]
+            previous_point = self._graph_search_closed_set[self._current_path_index - 1].position
             self._create_rectangle_at(previous_point, Colour.WHITE)
 
     def _next_red_colouring(self):
         if self._current_path_index < len(self._graph_search_closed_set):
             # TODO: This part goes up to some 33 ms until dfs thread is done, find what causes this?
-            current_point = self._graph_search_closed_set[self._current_path_index]
+            current_point = self._graph_search_closed_set[self._current_path_index].position
             self._create_rectangle_at(current_point, Colour.RED)
             self._current_path_index += 1
 
     def _back_red_colouring(self):
         if self._current_path_index > self._start_path_index + 1:
             self._current_path_index -= 1
-            previous_point = self._graph_search_closed_set[self._current_path_index - 1]
+            previous_point = self._graph_search_closed_set[self._current_path_index - 1].position
             self._create_rectangle_at(previous_point, Colour.RED)
 
     def _back_black_colouring(self):
-        current_point = self._graph_search_closed_set[self._current_path_index]
+        current_point = self._graph_search_closed_set[self._current_path_index].position
         self._create_rectangle_at(current_point, Colour.BLACK)
 
     def _create_rectangle_at(self, point, colour: Colour):
