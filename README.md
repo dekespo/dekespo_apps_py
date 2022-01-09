@@ -8,4 +8,4 @@ A tool where you can select different search algorithm and watch how it runs eac
 
 ## Note
 
-Uses Dekespo's AI SDK submodule (https://github.com/dekespo/dekespo_ai_sdk_py)
+Uses Dekespo's AI SDK module (https://pypi.org/project/dekespo-ai-sdk/)
